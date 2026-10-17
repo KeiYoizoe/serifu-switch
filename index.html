@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fffaf0">
+  <meta name="description" content="演技指示とセリフをランダムに組み合わせて楽しむ、即興ボイスチャレンジ。声で遊ぼう、いつもと違う自分で。">
+  <title>セリフスイッチ | 声で遊ぶ、即興チャレンジ</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="brand" aria-label="セリフスイッチ">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M8 7h16a4 4 0 0 1 4 4v9a4 4 0 0 1-4 4h-7l-7 5v-5H8a4 4 0 0 1-4-4v-9a4 4 0 0 1 4-4Z" fill="currentColor"/><path d="M11 13v5m5-7v9m5-7v5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></span>
+        <span>セリフスイッチ<span class="brand-subtitle">SERIFU SWITCH</span></span>
+      </div>
+      <span class="header-note">声ひとつで、なりたい誰かに。</span>
+    </header>
+
+    <main>
+      <p id="sound-notice" class="sound-notice" role="status" hidden></p>
+      <section id="setup-screen" class="screen setup-screen" aria-labelledby="setup-title">
+        <div class="intro">
+          <p class="eyebrow"><span aria-hidden="true">✦</span> 即興ボイスチャレンジ</p>
+          <h1 id="setup-title" tabindex="-1">声で遊ぼう、<br><span class="title-accent">いつもと違う自分で。</span></h1>
+          <p class="intro-description">「演技指示」×「セリフ」。組み合わせは、その場のお楽しみ。<br class="desktop-break">お題が変わるたび、新しいあなたにスイッチ！</p>
+        </div>
+
+        <div class="setup-layout">
+          <div class="preview-panel" aria-label="お題の例">
+            <p class="mini-label">たとえば、こんなお題。</p>
+            <div class="sample-direction">
+              <span class="card-label">演技指示</span>
+              <p id="preview-direction">—</p>
+              <span class="sample-sparkle" aria-hidden="true">✧</span>
+            </div>
+            <div class="combine-symbol" aria-hidden="true">×</div>
+            <div class="sample-line">
+              <span class="card-label">セリフ</span>
+              <p id="preview-line">—</p>
+              <svg class="speech-tail" viewBox="0 0 30 20" aria-hidden="true"><path d="M0 0h30L7 20Z" fill="currentColor"/></svg>
+            </div>
+            <p class="preview-caption">甘くても、クールでも。<br>あなたらしい演技で楽しもう。</p>
+          </div>
+
+          <div class="settings-panel">
+            <h2 class="panel-heading">チャレンジを設定</h2>
+            <form id="settings-form" novalidate>
+              <div class="settings-fields">
+                <div class="field">
+                  <label for="time-limit">1セリフの制限時間</label>
+                  <div class="number-input">
+                    <input id="time-limit" name="seconds" type="number" inputmode="numeric" min="1" max="120" step="1" value="5" required aria-describedby="time-help form-error">
+                    <span>秒</span>
+                  </div>
+                  <p id="time-help" class="field-help">1〜120秒</p>
+                </div>
+                <div class="field">
+                  <label for="question-count">出題回数</label>
+                  <div class="number-input">
+                    <input id="question-count" name="count" type="number" inputmode="numeric" min="1" max="100" step="1" value="10" required aria-describedby="count-help form-error">
+                    <span>回</span>
+                  </div>
+                  <p id="count-help" class="field-help">1〜100回</p>
+                </div>
+              </div>
+              <div class="category-settings">
+                <fieldset class="category-group">
+                  <legend>演技指示</legend>
+                  <div class="category-options">
+                    <label class="category-option">
+                      <input id="directions-male" type="checkbox" role="switch" checked>
+                      <span class="category-option-body"><span>男性寄り</span><span class="category-state-on" aria-hidden="true">ON</span><span class="category-state-off" aria-hidden="true">OFF</span></span>
+                    </label>
+                    <label class="category-option">
+                      <input id="directions-female" type="checkbox" role="switch" checked>
+                      <span class="category-option-body"><span>女性寄り</span><span class="category-state-on" aria-hidden="true">ON</span><span class="category-state-off" aria-hidden="true">OFF</span></span>
+                    </label>
+                    <label class="category-option">
+                      <input id="directions-common" type="checkbox" role="switch" checked>
+                      <span class="category-option-body"><span>共通</span><span class="category-state-on" aria-hidden="true">ON</span><span class="category-state-off" aria-hidden="true">OFF</span></span>
+                    </label>
+                  </div>
+                </fieldset>
+                <fieldset class="category-group">
+                  <legend>セリフ</legend>
+                  <div class="category-options">
+                    <label class="category-option">
+                      <input id="lines-male" type="checkbox" role="switch" checked>
+                      <span class="category-option-body"><span>男性寄り</span><span class="category-state-on" aria-hidden="true">ON</span><span class="category-state-off" aria-hidden="true">OFF</span></span>
+                    </label>
+                    <label class="category-option">
+                      <input id="lines-female" type="checkbox" role="switch" checked>
+                      <span class="category-option-body"><span>女性寄り</span><span class="category-state-on" aria-hidden="true">ON</span><span class="category-state-off" aria-hidden="true">OFF</span></span>
+                    </label>
+                    <label class="category-option">
+                      <input id="lines-common" type="checkbox" role="switch" checked>
+                      <span class="category-option-body"><span>共通</span><span class="category-state-on" aria-hidden="true">ON</span><span class="category-state-off" aria-hidden="true">OFF</span></span>
+                    </label>
+                  </div>
+                </fieldset>
+                <p id="category-error" class="error-message category-error" role="alert" hidden></p>
+              </div>
+              <label class="sound-setting" for="sound-enabled">
+                <span class="sound-copy">
+                  <span id="sound-label" class="sound-label">効果音</span>
+                  <span id="sound-help" class="sound-help">お題の切り替わりを音でお知らせ</span>
+                </span>
+                <span class="sound-toggle">
+                  <input id="sound-enabled" name="sound" type="checkbox" role="switch" aria-labelledby="sound-label" aria-describedby="sound-help">
+                  <span class="sound-track" aria-hidden="true"><span class="sound-off">OFF</span><span class="sound-on">ON</span></span>
+                </span>
+              </label>
+              <p class="duration-summary">チャレンジ時間の目安 <strong id="duration-summary">約50秒</strong></p>
+              <p id="form-error" class="error-message" role="alert" hidden></p>
+              <div id="data-error" class="data-error" role="alert" hidden>
+                <p id="data-error-message"></p>
+                <button id="retry-load" class="text-button" type="button">もう一度読み込む <span aria-hidden="true">↻</span></button>
+              </div>
+              <button id="start-button" class="button button-primary start-button" type="submit" disabled><span>チャレンジをはじめる</span><span aria-hidden="true">→</span></button>
+              <p id="data-status" class="data-status" role="status">お題を読み込んでいます…</p>
+              <p class="background-note">タブを離れても、チャレンジの時間は進みます。</p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="challenge-screen" class="screen challenge-screen" aria-labelledby="challenge-title" hidden>
+        <div class="challenge-topline">
+          <div>
+            <p class="eyebrow">VOICE CHALLENGE</p>
+            <h1 id="challenge-title" tabindex="-1" aria-describedby="current-direction current-line">さあ、あなたの出番。</h1>
+          </div>
+          <button id="stop-button" class="button button-secondary" type="button">途中終了</button>
+        </div>
+        <div class="challenge-board">
+          <div class="challenge-meta">
+            <p class="question-counter">お題 <strong id="question-number">1</strong><span>/ <span id="total-questions">10</span></span></p>
+            <p class="countdown">残り <strong id="time-remaining" role="timer" aria-live="off">5</strong> 秒</p>
+          </div>
+          <div id="time-progress" class="time-progress" role="progressbar" aria-label="このお題の残り時間" aria-valuemin="0" aria-valuemax="5" aria-valuenow="5">
+            <div id="time-progress-fill"></div>
+          </div>
+          <div class="prompt" aria-live="polite" aria-atomic="true">
+            <div class="direction-card">
+              <span class="card-label">演技指示</span>
+              <p id="current-direction"></p>
+            </div>
+            <span class="prompt-cross" aria-hidden="true">×</span>
+            <div class="line-card">
+              <span class="card-label">セリフ</span>
+              <p id="current-line"></p>
+            </div>
+          </div>
+        </div>
+        <p class="challenge-hint">時間が来たら、次のお題へ。自由に演じてみよう。</p>
+      </section>
+
+      <section id="results-screen" class="screen results-screen" aria-labelledby="results-title" hidden>
+        <div class="results-intro">
+          <span class="finish-mark" aria-hidden="true">✦</span>
+          <p class="eyebrow">CHALLENGE RESULT</p>
+          <h1 id="results-title" tabindex="-1">おつかれさまでした！</h1>
+          <p id="result-summary"></p>
+        </div>
+        <div class="history-panel">
+          <div class="history-heading">
+            <h2>今回のお題</h2>
+            <span id="history-count" class="history-count"></span>
+          </div>
+          <div id="history-scroll" class="table-scroll" tabindex="0" role="region" aria-label="出題履歴">
+            <table>
+              <caption class="visually-hidden">出題順の演技指示とセリフ</caption>
+              <colgroup><col class="number-column"><col class="direction-column"><col></colgroup>
+              <thead><tr><th scope="col">No.</th><th scope="col">演技指示</th><th scope="col">セリフ</th></tr></thead>
+              <tbody id="history-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <p id="timing-note" class="timing-note" hidden>画面の更新が遅れた時間帯のお題も、予定された順番で履歴に含めています。</p>
+        <button id="restart-button" class="button button-primary restart-button" type="button"><span>もう一度挑戦する</span><span aria-hidden="true">↻</span></button>
+      </section>
+      <audio id="switch-sound" src="assets/audio/sound.ogg" preload="none"></audio>
+      <noscript><p class="data-error">このアプリを利用するには、ブラウザのJavaScriptを有効にしてください。</p></noscript>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <section class="footer-section" aria-labelledby="about-title">
+          <h2 id="about-title">セリフスイッチについて</h2>
+          <p>演技指示とセリフをランダムに組み合わせる、即興ボイスチャレンジです。</p>
+          <p>声出し練習やシチュエーションボイスの練習、配信・動画のネタなど、好きな使い方でお楽しみください。</p>
+        </section>
+        <section class="footer-section" aria-labelledby="terms-title">
+          <h2 id="terms-title">利用規約</h2>
+          <p class="usage-permission">自由に利用OK。配信・動画でもどうぞ。</p>
+          <p>本サービスの画面やお題は、ご自由にご利用いただけます。配信や動画での利用も歓迎です。</p>
+          <p>事前の許可・利用報告・連絡は不要です。</p>
+        </section>
+        <section class="footer-section creator-section" aria-labelledby="creator-name">
+          <h2 id="creator-name" class="creator-name">宵添ケイ</h2>
+          <div class="creator-links">
+            <a href="https://x.com/KeiYoizoe" target="_blank" rel="noopener noreferrer" aria-label="宵添ケイのX（新しいタブで開きます）">X</a>
+            <a href="https://www.youtube.com/@YoizoeKei" target="_blank" rel="noopener noreferrer" aria-label="宵添ケイのYouTube（新しいタブで開きます）">YouTube</a>
+          </div>
+        </section>
+      </div>
+      <div class="footer-bottom">
+        <p>声の数だけ、楽しみ方がある。</p>
+        <span>SERIFU SWITCH</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
